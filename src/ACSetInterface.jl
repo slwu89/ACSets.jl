@@ -266,6 +266,7 @@ See also: [`set_subpart!`](@ref).
 end
 
 @inline set_subparts!(acs, part; kw...) = set_subparts!(acs, part, (;kw...))
+@inline set_subparts!(acs; kw...) = set_subparts!(acs, :, (;kw...))
 
 Base.setindex!(acs::ACSet, val, part, name) = set_subpart!(acs, part, name, val)
 Base.setindex!(acs::ACSet, vals, name) = set_subpart!(acs, name, vals)

@@ -575,4 +575,52 @@ g′′ = sparsify(g′)
 @test g′[:src] == [1,2]
 @test g′′[:src] == [1,2]
 
+# multiple attributes
+#####################
+
+SchAttrs = BasicSchema([:X], [], [:Attr], [(:attr1,:X,:Attr),(:attr2,:X,:Attr),(:attr3,:X,:Attr)])
+@acset_type DataAttrs(SchAttrs)
+
+mydata = @acset DataAttrs{String} begin
+   X=5
+end
+
+attr1 = string.(1:5)
+attr2 = string.(('A':'Z')[1:5])
+attr3 = ["hi","bye","hello","como estas","zai jian"]
+
+set_subparts!(
+   mydata,
+   attr1=attr1, attr2=attr2, attr3=attr3
+)
+
+mydata2 = @acset DataAttrs{String} begin
+   X=5
+end
+
+set_subparts!(
+  mydata2,
+   :,
+   attr1=attr1, attr2=attr2, attr3=attr3
+)
+
+SchAttrs2 = BasicSchema([:X,:Y], [], [:Attr], [(:attr1,:X,:Attr),(:attr2,:X,:Attr),(:attr3,:Y,:Attr),(:attr4,:Y,:Attr)])
+@acset_type DataAttrs2(SchAttrs2)
+
+mydata = @acset DataAttrs2{Int} begin
+   X=3
+   Y=2
+end
+
+attr1=[1,2,3]
+attr2=[4,5,6]
+
+attr3=[7,8]
+attr4=[9,10]
+
+set_subparts!(
+   mydata,
+   attr1=attr1, attr2=attr2, attr3=attr3, attr4=attr4
+)
+
 end
